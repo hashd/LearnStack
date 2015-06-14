@@ -125,6 +125,123 @@ The function `make_ref` creates a globally unique reference; no other reference 
 **Elixir collections can hold values of any type, including other collections**.
 
 #### Tuples
+Tuple is an ordered collection of values. Once created, a tuple cannot be modified. A tuple is written as a series of values between braces, separated with commas:
+
+` {1,2} {:ok, 42, "next"} {:error, :enoent} `
+
+A typical tuple has two to four elements, one can use `map`s or `struct`s otherwise.
+
+Tuples can be used in pattern matching. It is pretty common to return tuples from functions.
+
+```
+iex> {status, count, action} = {:ok, 42, "next"}
+{:ok, 42, "next"}
+iex> status  
+:ok          
+iex> count   
+42
+```
+
+#### Lists
+List is effectively a linked data structure and may either be empty or consist of a head and a tail list. Because of their implementation, lists are easy to traverse linearly, but they are expensive to access in random order.
+
+Lists are also immutable in nature so any mutating action of list will return a new list.
+
+```
+iex>  [ 1, 2, 3 ] ++ [ 4, 5, 6 ]      # concatenation
+[1, 2, 3, 4, 5, 6]
+iex> [1, 2, 3, 4] -- [2, 4]           # difference
+[1, 3]       
+iex> 1 in [1,2,3,4]                   # membership
+true         
+iex> "wombat" in [1, 2, 3, 4]
+false
+```
+
+##### Keyword Lists
+Elixir gives us a shortcut to write simple list of key/value pairs.
+
+```
+[ name: "Siri", desc: "Voice Assistant", origin: "Labs" ]
+```
+
+Elixir converts it into `[{:name, "Siri"}, {:desc, "Voice Assistant"}, {:origin, "Labs"}]`
+
+Elixir also allows us to omit the square brackets if a keyword list appears as the last item in any context where a list of values is expected.
+
+#### Maps
+A map is a collection of key/value pairs. A map literal looks like this: `%{ keyA => valueA, keyB => valueB,  keyC => valueC}`
+
+> Although typically all the keys in a map are the same type, that isn't required.
+
+If the key is an atom, one can use the same shortcut as keyword lists
+
+```
+iex> colors = %{ red: 0xff0000, green: 0x00ff00, blue: 0x0000ff }
+%{blue: 255, green: 65280, red: 16711680}
+```
+
+Maps allow only one entry for a particular key, whereas keyword lists allow the key to be repeated. Maps are efficient and they can be used in Elixir's pattern matching.
+
+> Use keyword lists for things such as command-line parameters and for passing around options, and use maps (or another data structure, the HashDict) when you want an associative array.
+
+##### Accessing a Map
+One can extract values from a map using the key. The square bracket syntax works with all maps:
+
+```
+iex>value = map[$key]
+```
+
+> Map returns `nil` if the key doesn't have an associated value.
+
+If the keys are atoms, you can use the dot notation like `colors.green`
+
+#### Binaries
+[TODO](#TODO)
+
+### Conventions
+Identifiers in Elixir are combinations of upper and lowercase ASCII characters, digits and underscores. It may end with a question mark or exclamation.
+
+Module, record, protocol and behaviour names start with an uppercase letter and are `BumpyCase`.
+
+It the first character is an underscore, Elixir doesn't report a warning if the variable is unused in a pattern match or function parameter list.
+
+Source file uses two-character indentation for nesting and use spaces, not tabs, to achieve this.
+
+Comments start with a hash sign `#` and run to the end of the line.
+
+### Truth
+Elixir has three special values: `true`, `false` and `nil`. `nil` is treated as false in Boolean Contexts.
+
+> All three of them are aliases for atoms of the same name.
+
+In most contexts, any value other than `false` or `nil` is treated as `true`.
+
+## Anonymous Functions
+An anonymous function is created using the `fn` keyword:
+
+```
+fn
+	parameter-list -> body
+	parameter-list -> body
+	parameter-list -> body
+end
+```
+
+At its simplest, a function has a parameter list and a body separated by `->`.
+
+```
+iex> mul = fn (a, b) -> a * b end
+iex> mul.(2, 3)
+6
+```
+
+The function is invoked using the the syntax var.(parameter-list). The dot indicates the function call, and the arguments are passed between parenthesis.
+
+> The dot is not needed for named function calls but required for anonymous function calls.
+
+If the function takes no arguments, you still need the parenthesis to call it however, one can omit the parentheses in a function definition.
+
 
 
 
