@@ -1,5 +1,5 @@
 # LearnStack
-To keep track of what I need to learn
+To keep track of learning and the queue
 
 ### In Progress
 - [Elixir](http://www.elixir-lang.org)
