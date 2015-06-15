@@ -242,6 +242,26 @@ The function is invoked using the the syntax var.(parameter-list). The dot indic
 
 If the function takes no arguments, you still need the parenthesis to call it however, one can omit the parentheses in a function definition.
 
+```
+iex> mul = fn a, b -> a * b end
+iex> mul.(3, 4)
+12
+```
+
+### One Function, Multiple Bodies
+A single function definition lets you define different implementations, depending on the type and contents of the arguments passed.
+
+> It can't be selected based on the number of arguments, each clause in the function definition must have the same number of parameters.
+
+> Inside a string, the contents of `#{...}` are evaluated and the result is substituted back in.
+
+
+
+
+
+
+
+
 
 
 
