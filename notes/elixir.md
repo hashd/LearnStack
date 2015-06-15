@@ -248,12 +248,29 @@ iex> mul.(3, 4)
 12
 ```
 
-### One Function, Multiple Bodies
+#### One Function, Multiple Bodies
 A single function definition lets you define different implementations, depending on the type and contents of the arguments passed.
 
 > It can't be selected based on the number of arguments, each clause in the function definition must have the same number of parameters.
 
 > Inside a string, the contents of `#{...}` are evaluated and the result is substituted back in.
+
+#### Functions can return functions
+
+```
+iex> mul = fn a -> fn b -> a * b end end
+iex> mul.(4).(5)
+20
+iex> fourMultiplier = mul.(4)
+iex> fourMultiplier.(5)
+20
+```
+
+Functions in Elixir automatically carry with them the bindings of variables in the scope in which they are defined. This is commonly termed as `*closure*`.
+
+#### Passing functions as Arguments
+
+
 
 
 
