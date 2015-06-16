@@ -311,20 +311,37 @@ iex> Enum.map [1,2,3,4], &(&1 < 3)
 Functions are the heart of Elixir.
 
 ## Modules and Named Functions
+In Elixir, **named functions** must be written within **modules**.
 
+```elixir
+defmodule Module do
+	def sum(a,b) do
+		a + b
+	end
+end
+```
 
+Modules can be compiled and loaded by running `$iex filepath` from the command prompt or `iex> c filepath` from the interactive elixir shell.
 
+In Elixir, a named function is identified by both its name and its arity. Functions with same name and different arity are totally separate as far as Elixir is concerned.
 
+> `do..end` block is one way of grouping expressions and passing them to other code.
 
+The actual syntax for writing functions is `def fun(params), do: params+1`. Multiple lines can be passed by grouping them with parentheses `()`. The `do..end` is just syntactic sugar.
 
+### Function Calls and Pattern Matching
+When you call a named function, Elixir tries to match your arguments with the parameter list of the first definition (clause). If it cannot match them, it tries the next definition of the same function (remember, this must have the same arity) and checks to see if it matches. It continues until it runs out of candidates.
 
+```elixir
+defmodule Fibonacci do
+	def at(0), do: 1
+	def at(1), do: 1
+	def at(n), do: at(n-1) + at(n-2)
+end
+```
 
+> The order of these clauses can make a difference when you translate them into code. Elixir tries functions from the top down, executing the first match.
+> Multiple implementations of the same function, should be adjacent in the source file.
 
-
-
-
-
-
-
-
+### Guard Clauses
 
