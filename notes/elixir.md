@@ -269,6 +269,50 @@ iex> fourMultiplier.(5)
 Functions in Elixir automatically carry with them the bindings of variables in the scope in which they are defined. This is commonly termed as `*closure*`.
 
 #### Passing functions as Arguments
+Functions are just values, so they can be passed to other functions as arguments.
+
+```elixir
+fourMultiplier = fn x -> 4 * x end
+apply = fn fun, value -> fun.(value) end
+apply.(fourMultiplier, 5)
+```
+
+#### The & Notation
+The strategy of creating short helper functions is so common that Elixir provides a shortcut.
+
+```elixir
+square = &(&1*&1)
+square.(5)
+```
+
+The & operator converts the expression that follows into a function. Inside the expression, the placeholders &1, &2 and so on correspond to the first, second and subsequent parameters to the function.
+
+Elixir can reuse some of the existing functions while creating references to these functions, the arguments must also be in the correct order.
+
+Because [] and {} are operators in Elixir for lists and tuples, they can also be turned into functions.
+
+```elixir
+divrem = &{ div(&1, &2), rem(&1, &2) }
+divrem.(22, 7)
+{3, 1}
+```
+
+The & shortcut gives us a wonderful way to pass functions to other functions.
+
+```Elixir
+iex> Enum.map [1,2,3,4], &(&1 + 1)
+[2, 3, 4, 5] 
+iex> Enum.map [1,2,3,4], &(&1 * &1)
+[1, 4, 9, 16]
+iex> Enum.map [1,2,3,4], &(&1 < 3)
+[true, true, false, false]
+```
+
+Functions are the heart of Elixir.
+
+## Modules and Named Functions
+
+
 
 
 
