@@ -407,6 +407,55 @@ end
 > Module nesting in Elixir is an illusion—all modules are defined at the top level. When we define a module inside another, Elixir simply prepends the outer module name to the inner module name, putting a dot between the two.
 
 #### Directives for Modules
+Elixir directives are **lexically** scoped. A directive in a module definition takes effect from the place one has written till the end of the module. A directive in a function definiton runs to the end of the function.
+
+##### `import` Directive
+The import directive brings a module’s functions and/or macros into the current scope.
+
+`import Module [, only:|except: ]`
+
+##### `alias` Directive
+The alias directive creates an alias for a module.
+
+`alias ModuleName.SubModule, as: Alias`
+
+> `as:` parameter defaults to the last part of the module name.
+
+##### `require` Directive
+`require` directive ensures that the given module is loaded before your code tries to use any of the macros it defines
+
+#### Module Attributes
+Elixir modules each have associated metadata. Each item of metadata is called an attribute of the module and is identified by a name. Inside a module, you can access these attributes by prefixing the name with an at sign (@).
+
+```elixir
+defmodule ModuleName do
+	@owner "hashd"
+	def get_owner do
+		@owner
+	end
+end
+```
+
+> These attributes are not variables in the conventional sense. Use them for configuration and metadata only.
+
+#### Module Names: Elixir, Erlang and Atoms
+Internally, module names are just atoms. When you write a name starting with an uppercase letter, such as `MyModule`, Elixir converts it internally into an atom called Elixir.MyModule.
+
+```elixir
+defmodule MyModule do
+end
+is_atom MyModule
+to_string MyModule
+:"Elixir.MyModule" === MyModule
+```
+
+In Erlang, variables start with an uppercase letter and atoms are simple lowercase names. In Elixir atoms are prefixed with `:`. In Elixir, we simply change the Erlang module names to an Elixir atom.
+
+Native modules for Elixir are documented on the Elixir website and the others can be found listed at [Hex PM](http://hex.pm) and on Github.
+
+## Lists and Recursion
+
+
 
 
 
