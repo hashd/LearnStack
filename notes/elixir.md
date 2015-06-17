@@ -344,4 +344,72 @@ end
 > Multiple implementations of the same function, should be adjacent in the source file.
 
 ### Guard Clauses
+These are predicates that are attached to a function definition using one or more when keywords. When doing pattern matching, Elixir first does the conventional parameter-based match and then evaluates any when predicates, executing the function only if at least one predicate is true.
+
+```elixir
+defmodule Factorial do
+	def of(0), do: 1
+	def of(n) when n > 0, do: n * of(n-1)
+end
+```
+
+#### Guard-Clause Limitations
+Only a subset of Elixir expressions can be used in guard clauses which can be seen in the official guide.
+
+### Default Parameters
+```elixir
+defmodule Example do
+  def func(p1, p2 \\ 2, p3 \\ 3, p4) do
+    IO.inspect [p1, p2, p3, p4]
+  end        
+end
+
+defmodule Params do
+  def func(p1, p2 \\ 123)
+  def func(p1, p2) when is_list(p1)  do
+    "You said #{p2} with a list"
+  end        
+  def func(p1, p2) do
+    "You passed in #{p1} and #{p2}"
+  end        
+end
+```
+
+### Private Functions
+The `defp` macro defines a private function, one that can be called only within the module that declares it.
+
+> One cannot have some heads of the function private and others public when the arity is same.
+
+### `|>` - Pipe Operator
+The |> operator takes the result of the expression to its left and inserts it as the first parameter of the function invocation to its right.
+
+`val |> function(a, b)` is basically the same as calling `function(val, a, b)` and `list |> sales_tax(2013) |> prepare_filing` is same as writing `prepare_filing(sales_tax(list,2013))`.
+
+> Programming is transforming data, and the `|>` operator makes that transformation explicit.
+
+### Modules
+Modules provide namespaces for things we define. Nested modules are used to impose structure for readability and reuse.
+
+To access a function in a nested module from the outside scope, prefix it with all the module names. To access it within the containing module, use either the fully qualified name or just the inner module name as a prefix.
+
+```elixir
+defmodule Outer do
+  defmodule Inner do
+    def inner_func do
+    end      
+  end        
+  def outer_func do
+    Inner.inner_func
+  end        
+end
+```
+
+> Module nesting in Elixir is an illusion—all modules are defined at the top level. When we define a module inside another, Elixir simply prepends the outer module name to the inner module name, putting a dot between the two.
+
+#### Directives for Modules
+
+
+
+
+
 
