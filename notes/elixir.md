@@ -455,6 +455,45 @@ Native modules for Elixir are documented on the Elixir website and the others ca
 
 ## Lists and Recursion
 
+### Heads and Tails
+A list may either be empty or consist of a head and a tail. The head contains a value and the tail itself is another list. 
+
+```elixir
+[ a | [ b | [ c | [ d | [] ] ] ] ]
+[ a, b, c, d ]
+```
+
+The pipe character can also be used in pattern matching
+
+```elixir
+[ a | b ] = [ 100, 101, 102, 103, 104 ]
+iex> a
+100
+iex> b
+[101,102,103,104]
+```
+
+> Note that if all the values in a list represent printable characters, it displays the list as a string; otherwise it displays a list of integers.
+
+```elixir
+defmodule MyList do
+	def map([], _), do: []
+	def map(min..max, fun), do: map(Enum.to_list(min..max), fun)
+	def map([head | tail], fun), do: [fun.(head) | map(tail, fun)]
+end
+```
+
+The Join Operator `|` supports multiple values to the left.
+
+```elixir
+[ a, b, c, d | [ e, f, g] ]
+[ a, b, c, d, e, f, g]
+```
+
+> This works in pattern matching too.
+
+### List module in action
+
 
 
 
