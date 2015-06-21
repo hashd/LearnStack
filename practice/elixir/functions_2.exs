@@ -12,3 +12,13 @@ fizzbuzz_test_ab = fn a, b ->
 end
 
 fizzbuzz_test_ab.(1,50)
+
+defmodule Fizzbuzz do
+  def test(0,0,_), do: "Fizzbuzz"
+  def test(0,_,_), do: "Fizz" 
+  def test(_,0,_), do: "Buzz" 
+  def test(_,_,n), do: n 
+  def testRange(a,b) do
+    for i <- a..b, do: test(rem(i,3), rem(i,5), i)
+  end
+end

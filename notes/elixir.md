@@ -518,7 +518,168 @@ kw_list = [name: "hashd", where: "github", likes: "elixir"]
 map = %{name: "hashd", where: "github", likes: "elixir"}
 ```
 
-### Pattern Matching and Updating Maps
+#### Pattern Matching
+Maps do not allow you to bind a value to a key during pattern matching.
+
+#### Updating Maps
+As with all values in Elixir, a map is immutable and so the result of the update is a new map. The simplest way to update a map is with the syntax
+
+```elixir
+new_map = %{old_map | key => value, ...}
+```
+
+This syntax will not add a new key to the map however. One can use `Dict.put_new/3` to achieve the same.
+
+### Structs
+If we want to create a typed map—a map that has a fixed set of fields and default values for those fields, and that you can pattern-match by type as well as content, one can use `struct`.
+
+A struct is simply a module that wraps a limited form of map. The name of the module becomes the name of the map type.
+
+```elixir
+defmodule Person do
+	defstruct name: "",age: nil,address: "Hello, World",gender: "Male"
+end
+
+p1 = %Person{ name: "hashd", age: 21, gender: "Male" }
+```
+
+> Syntax for creating a struct is same as the syntax for creating a map, one needs to simple add the module name between the % and the {
+
+Fields in Struct can be accessed using the dot notation or using pattern matching. Updates also work similar to maps.
+
+```elixir
+p2 = %Person{ p1 | name: "hash", age: 12 }
+```
+
+`Struct` is wrapped in a module so that one can add struct-specific behaviour in the same module.
+
+> One cannot access fields in Struct like in Maps because Struct does not implement the `Access` protocol which defines that behaviour. However, one can add this easily by using the `@derive` directive.
+
+### Sets
+HashSet implementation is provided by Elixir at the moment.
+
+```elixir
+Enum.into 1..5, HashSet.new
+$> #HashSet<[1, 2, 3, 4, 5]>
+```
+
+Set methods are available under the module `Set`.
+
+## Processing Collections: Enum and Stream
+Elixir provides two modules that have a bunch of iteration functions. 
+
+- The `Enum` module is the workhorse for collections.
+- The `Stream` module lets you enumerate a collection lazily. This means that the next value is calculated only when it is needed.
+
+```elixir
+import Enum
+deck = for rank <- 'A23456789TJQK', suit <- 'CDHS', do: [suit, rank]
+deck |> shuffle |> take(13)
+deck |> shuffle |> chunk(13)
+```
+
+### Streams: Lazy Enumerables
+In Elixir, the Enum module is greedy. This means that when you pass it a collection, it potentially consumes all the contents of that collection. It also means the result will typically be another collection.
+
+```elixir
+IO.puts File.open!("/usr/share/dict/words") |> IO.stream(:line) |> Enum.max_by(&String.length/1)
+```
+
+#### Infinite Streams
+Because streams are lazy, there’s no need for the whole collection to be available up front.
+
+Following `Stream` functions helps one create infinite streams:
+
+- Stream.cycle
+- Stream.repeatedly
+- Stream.iterate
+- Stream.unfold
+- Stream.resource
+
+### Collectable Protocol
+`Collectable` allows you to build a collection by inserting elements into it.
+
+> Not all collections are collectable.
+
+The collectable API is pretty low-level, so you’ll typically access it via `Enum.into` and when using comprehensions.
+
+#### Comprehensions
+The idea of a comprehension is fairly simple: given one or more collections, extract all combinations of values from each, optionally filter the values, and then generate a new collection using the values that remain.
+
+Syntax:
+```elixir
+result = for generator or filter… [, into: value ], do: expression
+```
+
+A generator specifies how you want to extract values from a collection.
+```elixir
+pattern <- list
+```
+
+A filter is a predicate. It acts as a gatekeeper for the rest of the comprehension—if the condition is false, then the comprehension moves on to the next iteration without generating an output value.
+
+> All variable assignments inside a comprehension are local to that comprehension—you will not affect the value of a variable in the outer scope.
+
+## Strings and Binaries
+Elixir has two kinds of strings:
+
+- Single-quoted character lists
+- Double-quoted string binaries
+
+> Strings can hold characters in UTF-8 encoding.
+
+### Heredocs
+Any string can span several lines.
+
+```elixir
+"
+	This is a valid elixir
+	string spanning multiple
+	lines
+"
+```
+
+The multiline string retains the leading and trailing newlines and the leading spaces on the intermediate lines.
+
+`heredoc` notation fixes this. Triple the string delimiter (''' or """) and indent the trailing delimiter to the same margin as your string contents,
+
+### Sigils
+A `sigil` starts with a tilde, followed by an upper- or lowercase letter, some delimited content, and perhaps some options. The delimiters can be <…>, {…}, […], (…), |…|, /…/, "…", and '…'.
+
+The letter determines the sigil's type:
+
+|:Type  		|:Description													|
+|---------------|---------------------------------------------------------------|
+|`-C`			| A character list with no escaping or interpolation			|
+|`-c`			| A character list, escaped and interpolated just like a single-quoted string |
+|`-R`			| A regular expression with no escaping or interpolation		|
+|`-r`			| A regular expression, escaped and interpolated				|
+|`-S`			| A string with no escaping or interpolation					|
+|`-s`			| A string, escaped and interpolated just like a double-quoted string	|
+|`-W`			| A list of whitespace-delimited words, with no escaping or interpolation |
+|`-w`			| A list of whitespace-delimited words, with escaping and interpolation	|
+
+> If the opening delimiter is three single or three double quotes, the sigil is treated as a heredoc.
+
+> In Elixir, the convention is that we call only double-quoted strings “strings.” The single-quoted form is a character list.
+
+### Single-Quoted Strings - Character lists
+Single-quoted strings are represented as a list of integer values, each value corresponding to a codepoint in the string.
+
+> Because a character list is a list, we can use the usual pattern matching and List functions.
+
+The notation ?c returns the integer code for the character c.
+
+### Binaries
+The binary type represents a sequence of bits. A binary literal looks like `<<term, ... >>`.
+
+### Double Quoted Strings - Binaries
+The contents of a double-quoted string (dqs) are stored as a consecutive sequence of bytes in UTF-8 encoding. This is more efficient in terms of memory and certain forms of access, but it does have two implications.
+
+### Binaries and Pattern Matching
+
+
+
 
 
 
