@@ -492,8 +492,33 @@ The Join Operator `|` supports multiple values to the left.
 
 > This works in pattern matching too.
 
-### List module in action
+## Dictionaries: Maps, HashDicts, Keywords, Sets and Structs
+Dictionary is a data type that associates keys with values.
 
+### Dictionaries
+Maps and hashdicts both implement the `Dict` behaviour. The `keyword` module differs in a way that it supports duplicate keys.
+
+```elixir
+defmodule MyMap do
+	def sumOfValues(map) when is_map(map), do
+		map |> Dict.values | Enum.sum
+	end
+
+	def sumOfKeys(map) when is_map(map), do
+		map |> Dict.keys | Enum.sum
+	end
+end
+```
+
+```elixir
+# Keyword List
+kw_list = [name: "hashd", where: "github", likes: "elixir"]
+
+# Map
+map = %{name: "hashd", where: "github", likes: "elixir"}
+```
+
+### Pattern Matching and Updating Maps
 
 
 
