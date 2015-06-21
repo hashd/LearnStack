@@ -9,6 +9,6 @@ defmodule Primes do
   end
 
   def find(n) when n >= 2 do
-    (2..n |> Enum.to_list) -- (for i <- 2..trunc(:math.sqrt(n)), j <- i..trunc(:math.sqrt(n)), j>=i, i*j < 10000, do: i*j)
+    (2..n |> Enum.to_list) -- (for i <- 2..trunc(:math.sqrt(n)), j <- i..trunc(:math.sqrt(n)), j>=i, i*j < n, do: i*j)
   end
 end
