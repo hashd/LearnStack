@@ -677,6 +677,69 @@ The binary type represents a sequence of bits. A binary literal looks like `<<te
 The contents of a double-quoted string (dqs) are stored as a consecutive sequence of bytes in UTF-8 encoding. This is more efficient in terms of memory and certain forms of access, but it does have two implications.
 
 ### Binaries and Pattern Matching
+TODO
+
+#### String Processing with Binaries
+With binaries that hold strings, we can process them similar to Lists.
+
+```elixir
+defmodule Utf8 do
+	def each(str, func) when is_binary(str), do: _each(str, func)
+	def _each(<< head :: utf8, tail :: binary >>, func) do
+		func.(head)
+		_each(tail, func)
+	end
+	defp _each(<<>>, _func), do: []
+end
+```
+
+## Control Flow
+Elixir code tries to be declarative, not imperative.
+
+> Functions written without explicit control flow tend to be shorter and more focused.
+
+### `if` and `unless`
+`if` and `unless` take two parameters, a condition and a keyword list, which can contain the keys `:do` and `:else`.
+
+``` elixir
+if condition, do: something, else: something
+# or
+if condition do
+	something
+else
+	something
+end
+```
+
+### `cond`
+The `cond` macro lets one write multicondition branching statements.
+
+``` elixir
+cond do
+	condition -> expression
+	condition -> expression
+	condition -> expression
+	condition -> expression
+	true -> expression
+end
+
+defmodule FizzBuzz do
+	def upto(n) when n > 0, do: 1..n |> Enum.map(&fizzbuzz/1)
+
+	defp fizzbuzz(n) do
+		cond do
+			rem(n, 5) === 0 and rem(n,3) === 0 -> "FizzBuzz"
+			rem(n, 5) === 0 -> "Buzz"
+			rem(n, 3) === 0 -> "Fizz"
+			true -> n
+		end
+	end
+end
+```
+
+### `case`
+
+
 
 
 
