@@ -8,6 +8,18 @@ defmodule Primes do
       Enum.map(fn ({a, _}) -> a end)
   end
 
+  @doc """
+  ## find
+  Find prime numbers till n
+
+  > Note that n has to be greater than 2
+
+  ### Examples
+  ```
+  Primes.find(10)
+  > [2,3,5,7]
+  ```
+  """
   def find(n) when n >= 2 do
     (2..n |> Enum.to_list) -- (for i <- 2..trunc(:math.sqrt(n)), j <- i..trunc(:math.sqrt(n)), j>=i, i*j < n, do: i*j)
   end

@@ -738,6 +738,27 @@ end
 ```
 
 ### `case`
+`case` lets one test a value against a set of patterns, executes the code associate with the first one that matches, and returns the value of that code. Patterns may include guard clauses.
+
+``` elixir
+case File.open("case.ex") do
+	{:ok, file} -> IO.puts "Contents: #{file, :all}"
+	{:error, reason} -> IO.puts "Failed: #{reason}"
+end
+```
+
+### Raising Exceptions
+Elixir exceptions are intended for things that should never happen in normal operation. Exceptions are raised simply using the `raise` function.
+
+``` elixir
+raise "Language not found"
+```
+
+You use exceptions far less in Elixir than in other languages—the design philosophy is that errors should propagate back up to an external, supervising process. Elixir has all the usual exception-catching mechanisms.
+
+## Organizing a Project
+
+
 
 
 
