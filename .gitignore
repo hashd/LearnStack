@@ -1,1 +1,4 @@
 *.beam
+**/.module-cache/*
+
+practice/react/examples
