@@ -770,17 +770,46 @@ In Elixir we send a message using the send function. It takes a PID and the mess
 
 We wait for messages using receive. In a way, this acts just like case, with the message body as the parameter. Inside the block associated with the receive call, you can specify any number of patterns and associated actions. Just as with case, the action associated with the first pattern that matches the function is run.
 
+``` elixir
+defmodule Greeter do
+	def greet do
+		receive do
+			{sender, msg} -> (
+				send sender, {:ok, "Hello, #{msg}"}
+				greet
+			)
+		end
+	end
+end
 
+pid = spawn(Greeter, :greet, [])
+send pid, {self, "World!"}
+send pid, {self, "Man!"}
 
+receive do
+	{:ok, message} -> IO.puts message
+end
+receive do
+	{:ok, message} -> IO.puts message
+end
+```
 
+### When processes die
+Read about `spawn_link` and `spawn_monitor`.
 
+### Parallel Map
 
+``` elixir
+defmodule Parallel do
+	def pmap(collection, fun) do
+		me = self
+		collection |> Enum.map(fn (elem) ->
+			spawn_link fn -> (send me, {self, fun.(elem)}) end
+		end) |> Enum.map(fn (pid) -> 
+			receive do {^pid, result} -> result end 
+		end)
+	end
+end
+```
 
-
-
-
-
-
-
-
-
+## Nodes :: The key to distributing services
