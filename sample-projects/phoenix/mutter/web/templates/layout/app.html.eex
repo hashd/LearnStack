@@ -29,7 +29,8 @@
     <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
     
-    <script>require("web/static/js/app")</script>
+    <script>var App = require("web/static/js/app")</script>
+    <script>$(() => App.init("<%= @channel %>"))</script>
     
   </body>
 </html>

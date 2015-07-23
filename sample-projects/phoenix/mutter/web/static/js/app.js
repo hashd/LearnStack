@@ -8,26 +8,28 @@ import {Socket} from "phoenix"
 // })
 
 class App {
-	static init() {
+	static init(channel) {
+		var username = prompt("Nickname: ");
 		var socket = new Socket("/ws");
 		socket.connect()
 		socket.onClose(e => console.log("Closed connection"))
 
-		var channel = socket.chan("rooms:lobby", {})
+		var channel = socket.chan("rooms:" + channel, {user: username})	
 		channel.join()
-			.receive("ok", () => console.log("Connected"))
+			.receive("ok", () => channel.push("new:user", {user: username}))
 			.receive("error", () => console.log("Connection error"))
 		
 		channel.on("new:message", this.renderMessage)
-		
-		var username = $("#username")
-		var msgBody  = $("#message")
+		channel.on("new:user", this.renderNewUser)
+		channel.on("bye:user", this.renderExitUser)
+		channel.on("current:users", this.renderCurrentUsers)
 
+		var msgBody = $("#message")
 		msgBody.off("keypress")
 			.on("keypress", e => {
 			  if (e.keyCode == 13) {
 			    channel.push("new:message", {
-			    	user: username.val(),
+			    	user: username,
 			    	body: msgBody.val()
 			    })
 			    msgBody.val("")
@@ -39,8 +41,18 @@ class App {
 	  var messages = $("#messages")
 	  messages.append(`<p><b>[${msg.user}]</b>: ${msg.body}</p>`)
 	}
-}
 
-$(() => App.init())	
+	static renderNewUser(msg) {
+		$("#messages").append(`<p><b>[${msg.user}]</b> has joined.</p>`)
+	}
+
+	static renderExitUser(msg) {
+		$("#messages").append(`<p><b>[${msg.user}]</b> has left.</p>`)
+	}
+
+	static renderCurrentUsers(msg) {
+		$('#messsages').append(`<p>Currently online: <i>${msg.users.join(",")}</i></p>`)
+	}
+}
 
 export default App

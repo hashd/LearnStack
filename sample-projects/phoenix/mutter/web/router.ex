@@ -20,6 +20,7 @@ defmodule Mutter.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    get "/:channel", PageController, :channel
   end
 
   # Other scopes may use custom stacks.
