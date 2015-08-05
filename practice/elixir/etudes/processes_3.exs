@@ -14,3 +14,5 @@ spawn_link(GreeterServer, :greet, []) |> Process.register(:greeter)
 send(:greeter, {:welcome, "hashd"})
 send(:greeter, {:gift, "pen"})
 send(:greeter, {:bye, "hashd"})
+
+:greeter |> Process.whereis |> Process.info
