@@ -1,4 +1,5 @@
 *.beam
 **/.module-cache/*
+.DS_Store
 
 practice/react/examples
