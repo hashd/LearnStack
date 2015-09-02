@@ -1,0 +1,7 @@
+<div id="messages"></div>
+<br/>
+
+<div class="col-md-6 form-group">
+  <label>Message</label>
+  <input id="message" type="text" class="form-control" />
+</div>
