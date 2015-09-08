@@ -11,7 +11,17 @@ defmodule Comprehensions do
   def enum_qsort([p | r]) do
     {lt, gt} = r |> Enum.partition(&(&1 < p))
 
-    qsort(lt) ++ [p] ++ qsort(gt)
+    enum_qsort(lt) ++ [p] ++ enum_qsort(gt)
+  end
+
+  def par_qsort([]), do: []
+  def par_qsort([p | r]) do
+    {lt, gt} = r |> Enum.partition(&(&1 < p))
+
+    lht = Task.async(fn -> par_qsort(lt) end)
+    rht = Task.async(fn -> par_qsort(gt) end)
+
+    Task.await(lht, 800000) ++ [p] ++ Task.await(rht, 800000)
   end
 
   def perms([]), do: [[]]
@@ -20,5 +30,5 @@ defmodule Comprehensions do
   end
 end
 
-1..100 |> Enum.shuffle |> Comprehensions.qsort
-1..4 |> Enum.shuffle |> Comprehensions.perms
+:timer.tc(fn -> 1..1000000 |> Enum.shuffle |> Comprehensions.qsort end)
+:timer.tc(fn -> 1..1000000 |> Enum.shuffle |> Comprehensions.par_qsort end)
