@@ -1,0 +1,1 @@
+%w(k squ).cycle.take_while {|x| true}.each {|x| puts "You're a #{x}id now"}
