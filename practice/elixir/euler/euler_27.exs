@@ -1,15 +1,11 @@
 defmodule Euler27 do
-  defp is_prime?(n) when n < 0, do: is_prime?(-n)
-  defp is_prime?(0), do: false
-  defp is_prime?(1), do: false
-  defp is_prime?(2), do: true
-  defp is_prime?(val) when val > 2 do
-    factors = 2..trunc(:math.sqrt(val))
-      |> Stream.filter(&(rem(val, &1) == 0))
-      |> Stream.filter(&(&1 != 1))
-      |> Enum.take(1)
-
-    factors == []
+  @spec is_prime?(non_neg_integer) :: boolean
+  def is_prime?(val) when n < 2, do: false
+  def is_prime?(val) when n < 4, do: true
+  def is_prime?(val) when val >= 4 do
+    2..trunc(:math.sqrt(val))
+    |> Stream.filter(&(rem(val, &1) == 0))
+    |> Enum.empty?
   end
 
   def primes_till(n \\ 1000) do
