@@ -13,5 +13,5 @@ defmodule Comprehensions do
   end
 end
 
-1..100 |> Enum.shuffle |> Comprehensions.qsort
-1..4 |> Enum.shuffle |> Comprehensions.perms
+# 1..100 |> Enum.shuffle |> Comprehensions.qsort
+# 1..4 |> Enum.shuffle |> Comprehensions.perms

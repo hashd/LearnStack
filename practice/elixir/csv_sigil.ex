@@ -9,3 +9,7 @@ defmodule CsvSigil do
     |> Enum.map &(String.split &1, delimiter)
   end
 end
+
+# import CsvSigil
+# ~v(this,is,cool
+# so,is,this)
