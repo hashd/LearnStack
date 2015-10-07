@@ -1,0 +1,16 @@
+.is-current {
+  color: rgb(255,255,0) !important;
+}
+.page-content {
+  padding: 0 40px 0 80px;
+}
+a.status.selected {
+  font-weight: bold;
+}
+a.status {
+  color: #607D8B;
+  padding: 12px;
+  display: inline-block;
+  min-width: 1.5em;
+  cursor: pointer;
+}
