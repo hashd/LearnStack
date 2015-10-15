@@ -1,0 +1,2 @@
+### Stroop
+This example is based on the tutorial mentioned [here](https://strongloop.com/strongblog/the-foundations-of-universal-or-isomorphic-javascript/) which provides good insight into modern web development using React, Webpack, Babel and new ES Standards.
