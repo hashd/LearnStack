@@ -78,5 +78,22 @@ This transformation is referred to as macro expansion. The final AST returned fr
 ### Macro Expansion
 When the compiler encounters a macro, it recursively expands it until the code no longer contains any macro calls.
 
+``` elixir
+iex> Macro.expand_once(quote do: unless(5 != 4, do: 5, else: 4), __ENV__)
+```
 
+### Code injection and the Caller's context
+Macros don't just generate code for the caller, they inject it. The place where code is injected is called as the `context`. To the caller of a macro, the context is precious. It holds your view of the world, and by virtue of immutability, you don’t expect your variables, imports, and aliases to change out from underneath you.
 
+#### Injecting Code
+Because macros are all about injecting code, one has to understand the two contexts in which a macro executes, or you risk generating code in the wrong place.
+
+- Context of macro definition
+- Context of caller's invocation of the macro
+
+If you find yourself losing track of what context your code is executing in, it’s often a sign that your code generation is too complex. You can avoid confusion by keeping macro definitions as short and straightforward as possible.
+
+#### Hygiene protect the Caller's context
+Elixir has the concept of macro hygiene. Hygiene means that variables, imports, and aliases that you define in a macro do not leak into the caller’s own definitions.
+
+## Extending Elixir with Metaprogramming
