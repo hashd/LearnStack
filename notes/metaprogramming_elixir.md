@@ -61,7 +61,22 @@ defmodule ControlFlow do
 end
 ```
 
+Macros receive the AST representation of arguments. Macro's purpose of life is to take in an AST representation and return an AST representation.
 
+```
+quote do
+	if !unquote(expression), do: unquote(block), else: unquote(else_block)
+end
+```
+This transformation is referred to as macro expansion. The final AST returned from unless is expanded within the caller's context at compile time.
+
+#### unquote
+`unquote` macro allows values to be injected into an AST that is being defined. 
+
+`quote` and `unquote` macros pair together to let one build ASTs without fumbling with the AST by hand.
+
+### Macro Expansion
+When the compiler encounters a macro, it recursively expands it until the code no longer contains any macro calls.
 
 
 
