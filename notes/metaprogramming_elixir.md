@@ -97,3 +97,5 @@ If you find yourself losing track of what context your code is executing in, itâ
 Elixir has the concept of macro hygiene. Hygiene means that variables, imports, and aliases that you define in a macro do not leak into the callerâ€™s own definitions.
 
 ## Extending Elixir with Metaprogramming
+Macros aren't limited to the simple transformations. They can be used to perform powerful code generation, save time, eliminate boilerplate and produce elegant APIs.
+
