@@ -5,7 +5,7 @@ class App extends React.Component {
 		super()
 		this.state = {
 			messages: [
-				'Hi Kiran, how are you?',
+				'Hi idiot, how are you?',
 				'I am fine, and you?'
 			]
 		}
@@ -14,7 +14,7 @@ class App extends React.Component {
 	render() {
 		var messageNodes = this.state.messages.map(message => {
 			return (
-				<div>{message}</div>
+				<p>{message}</p>
 			)
 		})
 
