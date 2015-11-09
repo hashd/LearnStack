@@ -21,6 +21,16 @@ defmodule Assertion do
 				to be equal to: #{rhs}
 			"""
 		end
+		def assert(:>, lhs, rhs) when lhs > rhs do
+			IO.write "."
+		end
+		def assert(:>, lhs, rhs) do
+			IO.puts """
+			FAILURE:
+				Expected:					#{lhs}
+				to be less than: 	#{rhs}
+			"""
+		end
 	end
 end
 

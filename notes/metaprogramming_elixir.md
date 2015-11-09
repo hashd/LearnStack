@@ -99,3 +99,13 @@ Elixir has the concept of macro hygiene. Hygiene means that variables, imports, 
 ## Extending Elixir with Metaprogramming
 Macros aren't limited to the simple transformations. They can be used to perform powerful code generation, save time, eliminate boilerplate and produce elegant APIs.
 
+### Extending Modules
+A core purpose of macros is to inject code into modules to extend their behavior, define functions, and perform any other code generation that's required.
+
+> Look at example `/practice/elixir/macros/module_extension_custom.exs`
+
+#### `use`: Common API for Module extension
+`use` macro serves the simple but powerful purpose of providing a common API for module extension. `use SomeModule` simply invokes the `SomeModule.__using__/1` macro.
+
+
+
