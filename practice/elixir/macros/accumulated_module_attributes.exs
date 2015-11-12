@@ -4,8 +4,14 @@ defmodule Assertion do
       import unquote(__MODULE__)
       Module.register_attribute __MODULE__, :tests, accumulate: true
       
+      @before_compile unquote(__MODULE__)
+    end
+  end
+
+  defmacro __before_compile__(_env) do
+    quote do
       def run do
-        IO.puts "Running the tests (#{inspect @tests})"
+        Assertion.Test.run(@tests, __MODULE__)
       end
     end
   end
@@ -17,18 +23,67 @@ defmodule Assertion do
       def unquote(test_func)(), do: unquote(test_block)
     end
   end
+
+  defmacro assert({operator, _, [lhs, rhs]}) do
+    quote bind_quoted: [operator: operator, lhs: lhs, rhs: rhs] do
+      Assertion.Test.assert(operator, lhs, rhs)
+    end
+  end
+end
+
+defmodule Assertion.Test do
+  def run(tests, module) do
+    Enum.each tests, fn {test_func, description} ->
+      case apply(module, test_func, []) do
+        :ok -> IO.write "."
+        {:fail, reason} -> IO.puts """
+          ========================================================
+          FAILURE: #{description}
+          ========================================================
+          #{reason}
+        """
+      end
+    end
+  end
+
+  def assert(:==, lhs, rhs) when lhs == rhs do
+    :ok
+  end
+  def assert(:==, lhs, rhs) do
+    {
+      :fail, 
+      """
+      Expected:       #{lhs}
+      to be equal to: #{rhs}
+      """
+    }
+  end
+
+  def assert(:>, lhs, rhs) when lhs > rhs do
+    :ok
+  end
+  def assert(:>, lhs, rhs) do
+    {
+      :fail,
+      """
+      Expected:           #{lhs}
+      to be greater than: #{rhs}
+      """
+    }
+  end
 end
 
 defmodule MathTest do
   use Assertion
 
   test "Basic addition" do
-    IO.puts "Testing basic addition"
+    assert 5 + 6 == 11
+    assert 6 + 6  > 11
   end
 
-  test "Basic subtraction" do
-    IO.puts "Testing basic subtraction"
-  end
+  # test "Basic subtraction" do
+  #   IO.puts "Testing basic subtraction"
+  # end
 end
 
 MathTest.run
