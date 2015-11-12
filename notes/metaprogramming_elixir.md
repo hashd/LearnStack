@@ -107,5 +107,6 @@ A core purpose of macros is to inject code into modules to extend their behavior
 #### `use`: Common API for Module extension
 `use` macro serves the simple but powerful purpose of providing a common API for module extension. `use SomeModule` simply invokes the `SomeModule.__using__/1` macro.
 
+## Advanced Compile-Time Code Generation
 
 

@@ -1,0 +1,3 @@
+application/javascript	.js, .javascript, .jsx
+application/image	.jpg, .jpeg, .png, .bmp
+application/video	.mkv, .mp4, .mpeg, .flv 

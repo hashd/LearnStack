@@ -29,6 +29,11 @@ defmodule Assertion do
       Assertion.Test.assert(operator, lhs, rhs)
     end
   end
+  defmacro assert(symbol) when is_atom(symbol) do
+    quote bind_quoted: [atom: symbol] do
+      Assertion.Test.assert(atom)
+    end
+  end
 end
 
 defmodule Assertion.Test do
@@ -71,6 +76,19 @@ defmodule Assertion.Test do
       """
     }
   end
+
+  def assert(atom) when is_atom(atom) do
+    cond do
+      atom in [false, nil] -> 
+        {
+          :fail, 
+          """
+          Expected truthy value but got #{atom}
+          """
+        }
+      true -> :ok
+    end
+  end
 end
 
 defmodule MathTest do
@@ -84,6 +102,13 @@ defmodule MathTest do
   # test "Basic subtraction" do
   #   IO.puts "Testing basic subtraction"
   # end
+
+  test "Atoms" do
+    assert true
+    assert false
+    assert nil
+    assert :five
+  end
 end
 
 MathTest.run
