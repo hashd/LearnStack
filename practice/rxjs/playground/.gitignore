@@ -1,0 +1,7 @@
+build/**/*.js
+build/**/*.html
+build/**/*.css
+public/**/*.js
+public/**/*.html
+public/**/*.css
+node_modules
