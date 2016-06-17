@@ -1,0 +1,45 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body  {
+  font-family: 'Helvetica Neue';
+}
+
+.sidebar {
+  width: 180px;
+  background: #fafafa;
+  border-right: 1px solid #ddd;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  padding: 10px;
+}
+
+.sidebar h2 {
+  font-size: 1em;
+}
+
+.sidebar ul {
+  padding-left: 0;
+  list-style: none;
+  counter-reset: decks;
+}
+
+.sidebar li {
+  counter-increment: decks;
+  padding: 4px 0;
+  font-size: 0.8em;
+  color: #888;
+}
+
+.sidebar li:before {
+  content: counter(decks) ". ";
+}
+
+.sidebar li:hover {
+  color: #D22042;
+  cursor: pointer;
+}
