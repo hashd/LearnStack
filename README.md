@@ -6,3 +6,7 @@ Use the following command to create an orphan branch for a learning project.
 ``` bash
 git checkout --orphan <branch_name>
 ```
+
+#### List of learning experiments
+
+- [**archives**](https://github.com/hashd/LearnStack/tree/archives) - All archived learning experiments
