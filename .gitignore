@@ -1,1 +1,3 @@
 // Empty gitignore to commit
+**/.DS_Store
+node_modules
