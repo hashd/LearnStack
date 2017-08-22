@@ -1,0 +1,23 @@
+{
+  "name": "Puppeteer",
+  "version": "1.0.0",
+  "description": "Base for various learning experiments, check out the various branches for specific experiments.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hashd/LearnStack.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hashd/LearnStack/issues"
+  },
+  "homepage": "https://github.com/hashd/LearnStack#readme",
+  "dependencies": {
+    "puppeteer": "^0.9.0"
+  }
+}

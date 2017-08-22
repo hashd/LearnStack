@@ -1,0 +1,5 @@
+// Empty gitignore to commit
+**/.DS_Store
+*.png
+*.pdf
+node_modules
