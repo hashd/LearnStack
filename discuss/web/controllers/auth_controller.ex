@@ -3,14 +3,14 @@ defmodule Discuss.AuthController do
   alias Discuss.User
 
   plug Ueberauth
-  
+
   def logout(conn, _params) do
     conn
     |> configure_session(drop: true)
     |> redirect(to: topic_path(conn, :index))
   end
 
-  def callback(conn, %{"provider" => provider} = params) do
+  def callback(conn, %{"provider" => provider}) do
     %{credentials: %{token: token},
       info: %{email: email,
               name: name}
@@ -28,7 +28,7 @@ defmodule Discuss.AuthController do
         |> put_flash(:info, "Welcome back!")
         |> put_session(:user_id, user.id)
         |> redirect(to: topic_path(conn, :index))
-      {:error, reason} ->
+      {:error, _reason} ->
         conn
         |> put_flash(:error, "Error signing in")
         |> redirect(to: topic_path(conn, :index))

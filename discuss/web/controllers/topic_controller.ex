@@ -3,9 +3,12 @@ defmodule Discuss.TopicController do
 
   alias Discuss.Topic
 
+  plug Discuss.Plug.RequireAuth when action in [:new, :delete, :edit, :update]
+  plug :check_post_owner when action in [:edit, :delete, :update]
+
   def index(conn, _params) do
     IO.inspect conn.assigns
-    topics = Repo.all(Topic)
+    topics = Repo.all(Topic) |> Repo.preload(:user)
     render conn, "index.html", topics: topics
   end
 
@@ -52,7 +55,9 @@ defmodule Discuss.TopicController do
   end
 
   def create(conn, %{"topic" => topic}) do
-    changeset = Topic.changeset(%Topic{}, topic)
+    changeset = conn.assigns.user
+      |> build_assoc(:topics)
+      |> Topic.changeset(topic)
 
     case Repo.insert(changeset) do
       {:ok, _topic}         ->
@@ -61,6 +66,17 @@ defmodule Discuss.TopicController do
         |> redirect(to: topic_path(conn, :index))
       {:error, changeset} ->
         render conn, "new.html", changeset: changeset
+    end
+  end
+
+  def check_post_owner(%{params: %{"id" => topic_id}, assigns: %{user: %{id: id}}} = conn, _p) do
+    if id = Repo.get(Topic, topic_id).user_id do
+      conn
+    else
+      conn
+      |> put_flash(:error, "You are not authorized.")
+      |> redirect(to: topic_path(conn, :index))
+      |> halt()
     end
   end
 end
