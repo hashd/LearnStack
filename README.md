@@ -12,3 +12,4 @@ git checkout --orphan <branch_name>
 - [**archives**](https://github.com/hashd/LearnStack/tree/archives) - All archived learning experiments
 - [**puppeteer**](https://github.com/hashd/LearnStack/tree/puppeteer) - Code related to using puppeteer for server side exports as png and pdf
 - [**elixir**](https://github.com/hashd/LearnStack/tree/elixir) - Experiments with building server side rendered apps using Phoenix
+- [**typescript-decorators](https://github.com/hashd/LearnStack/tree/ts-decorators) - Experiments with typescript decorators
